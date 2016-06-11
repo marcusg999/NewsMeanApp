@@ -12,6 +12,12 @@ function($stateProvider, $urlRouterProvider) {
       controller: 'MainCtrl'
     });
 
+  .state('posts', {
+  url: '/posts/{id}',
+  templateUrl: '/posts.html',
+  controller: 'PostsCtrl'
+});
+
   $urlRouterProvider.otherwise('home');
 }]);
 
@@ -34,6 +40,15 @@ app.controller('MainCtrl', [
       {title: 'post 4', upvotes: 9},
       {title: 'post 5', upvotes: 4}
 ];
+
+app.controller('PostsCtrl', [
+'$scope',
+'$stateParams',
+'posts',
+function($scope, $stateParams, posts){
+
+}]);
+
 $scope.addPost = function(){
   if(!$scope.title || $scope.title === '') {return; }
   $scope.posts.push({title: $scope.title, link: $scope.link, upvotes: 0});
