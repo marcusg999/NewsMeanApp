@@ -79,6 +79,11 @@ $scope.posts.push({
     {author: 'Joe', body: 'Cool post!', upvotes: 0},
     {author: 'Bob', body: 'Great idea but everything is wrong!', upvotes: 0}
   ]
+  o.getAll = function() {
+    return $http.get('/posts').success(function(data){
+      angular.copy(data, o.posts);
+    });
+  };
 });
 
   }]);
