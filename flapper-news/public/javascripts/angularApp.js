@@ -21,7 +21,7 @@ function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('home');
 }]);
 
-app.factory('posts', [function(){
+app.factory('posts', ['$http',function($http){
   var o = {
     posts: []
   };
@@ -31,7 +31,7 @@ app.factory('posts', [function(){
 app.controller('MainCtrl', [
   '$scope',
   'posts',
-  function($scope, posts) {
+  function($scope, posts){
     $scope.test = 'Hello world!';
      $scope.posts = posts.posts; [
       {title: 'post 1', upvotes: 5},
@@ -62,7 +62,10 @@ function($scope, $stateParams, posts){
 
 $scope.addPost = function(){
   if(!$scope.title || $scope.title === '') {return; }
-  $scope.posts.push({title: $scope.title, link: $scope.link, upvotes: 0});
+  $scope.posts.push({title: $scope.title,
+  link: $scope.link,
+  upvotes: 0
+});
   $scope.title = '';
   $scope.link = '';
 };
@@ -85,5 +88,15 @@ $scope.posts.push({
     });
   };
 });
+.state('home', {
+  url: '/home',
+  templateUrl: '/home.html',
+  controller: 'MainCtrl',
+  resolve: {
+    postPromise: ['posts', function(posts){
+      return posts.getAll();
+    }]
+  }
+})
 
   }]);
